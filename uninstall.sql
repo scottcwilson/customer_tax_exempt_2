@@ -1,0 +1,4 @@
+# UNINSTALL CUSTOMER TAX EXEMPT
+#
+#
+ALTER TABLE customers DROP COLUMN customers_tax_exempt;
