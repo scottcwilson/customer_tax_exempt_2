@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Customer Tax Exempt v2 for Zen Cart v1.5.6+</title>
+
+<style type="text/css">
+<!--
+a, a:active, a:visited { color: #006666; text-decoration: none; }
+a:hover { color: #00CC99; text-decoration: underline; }
+BODY, P, H1, H2, H3, H4, H5, H6, LI, TD, DD, DT, table {   font-family: Verdana, AvantGarde, Tahoma, Arial, sans-serif; font-size: 10pt; color: black; padding: 0px; margin: 20px; }
+H1, H2, H3, H4 { font-weight: bold; padding-top: 10px; }
+h1 { font-size: 20px; }
+h2 { font-size: 16px; background-color: #bcbcbc; padding: 10px; }
+h3 { font-size: 14px; background-color: #dcdcdc; padding: 5px; }
+h4 { font-size: 12px; border-top: 1px solid #ababab; }
+dt { font-weight: bold; margin-bottom: 0; }
+dd { margin-top: 0; padding-left: 40px; }
+img { margin: 0 20px; }
+ol li { margin-left: 0; }
+.corefile { color: red; }
+.removed { text-decoration: line-through; }
+.added { color: blue; }
+.changed { color: green; }
+.minspacing li { margin: 0; }
+ol li, ul li { margin-top: 5px; margin-bottom: 5px; }
+ul li ul { padding-left: 0; }
+table { border-collapse: collapse; }
+td { vertical-align: top; padding: 5px; border-top: 1px solid #404040; }
+td.version { vertical-align: middle; font-weight: bold; font-size: larger; }
+td.none { font-weight: bold; text-align: center; padding-top: 10px; }
+.odd { background-color: #ebebeb; }
+.osh { }
+.smaller { font-size: smaller; }
+-->
+</style>
+</head>
+
+<body>
+<a name="top" id="top"></a>
+<h1>Customer Tax Exempt v2, for Zen Cart v1.5.6+</h1>
+<h3>Version 2.0.0 by lat9. <span class="smaller">Copyright &copy; 2019, <a href="https://vinosdefrutastropicales.com" target="_blank">Vinos de Frutas Tropicales</a></span></h3>
+<p>Current Support Thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?225841-Customer-Tax-Exempt" target="_blank">https://www.zen-cart.com/showthread.php?225841-Customer-Tax-Exempt</a></p>
+
+<hr />
+<h2>What it does</h2>
+<p><em>Customer Tax Exempt v2</em> allows you to identify taxes from which your store's customers are exempt. Refer to the plugin's <a href="https://github.com/lat9/customer_tax_exempt_2/readme.md" target="_blank">on-line documentation</a> for additional information.</p>
+
+<hr />
+<h2>Installing and Upgrading</h2>
+<p>There are <b>no</b> <span class="corefile">core-file overwrites</span> in this plugin; however, you should <strong>always</strong> backup your store's database and files prior to making any changes.</p>
+<ol>
+  <li>Rename /YOUR_ADMIN to match the name of your Zen Cart admin directory.</li>
+  <li>Upload the plugin's files to your store's file system:<ol type="a">
+    <li>/includes/auto_loaders/config.CustomerTaxExempt.php</li>
+    <li>/includes/classes/observers/TaxExemptCustomerObserver.php</li>
+    <li>/YOUR_ADMIN/includes/auto_loaders/config.customer_tax_exempt_admin.php</li>
+    <li>/YOUR_ADMIN/includes/classes/observers/CustomerTaxExemptAdminObserver.php</li>
+    <li>/YOUR_ADMIN/includes/init_includes/init_customer_tax_exempt_admin.php</li>
+    <li>/YOUR_ADMIN/includes/languages/english/extra_definitions/customer_tax_exempt.php</li>
+  </ol></li>
+  <li>Sign into your admin-console or, if you are already signed in, click the <em>Admin Home</em> link at the top of the page.</li>
+</ol>
+
+<hr />
+<h2>Un-install</h2>
+<p>Delete the plugin's added files (see above) copied during the installation. Finally, run the <strong>/uninstall_customer_tax_exempt.sql</strong> to remove the plugin's database changes.</p>
+
+<hr />
+<h2>Version History:</h2>
+<ul>
+  <li>v2.0.0, 2019-08-31:<ul>
+    <li>Initial release.</li>
+  </ul></li>
+</ul>
+</body>
+</html>
