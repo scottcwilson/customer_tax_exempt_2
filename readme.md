@@ -8,6 +8,7 @@ If you have customers that have tax-exempt status, this _drop-in_ plugin enables
 
 Once you have installed (or upgraded) the plugin, a new data-entry field &mdash; **Customer Tax Exempt** &mdash; is available when a store admin views a customer's details via the **Customers->Customers** tab:
 
+![alt text](customers_tax_exempt_addition.jpg "Addition to customer details")
 
 1. If that field is empty, the customer has **no** exemptions.
 2. If that field is set to **ALL**, the customer is exempt from _all_ taxes.
