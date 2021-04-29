@@ -1,6 +1,6 @@
 # Customer Tax Exempt &mdash; v2
 
-This plugin is based on the [Customer Tax Exempt](https://www.zen-cart.com/downloads.php?do=file&id=405) plugin, with the exception that _this_ plugin supports **only** Zen Cart v1.5.6 and later and has no core-file modifications required.  Click [here](https://www.zen-cart.com/showthread.php?225841-Customer-Tax-Exempt) to view its support-thread on the Zen Cart forums.
+This plugin is based on the [Customer Tax Exempt](https://www.zen-cart.com/downloads.php?do=file&id=405) plugin, with the exception that _this_ plugin supports **only** Zen Cart v1.5.6 and later and has no core-file modifications required.  Click [here](https://www.zen-cart.com/showthread.php?225857-Customer-Tax-Exempt-v2-Support-Thread) to view its support-thread on the Zen Cart forums.
 
 ## Description
 
