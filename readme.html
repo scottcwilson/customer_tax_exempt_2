@@ -40,12 +40,12 @@ td.none { font-weight: bold; text-align: center; padding-top: 10px; }
 <body>
 <a name="top" id="top"></a>
 <h1>Customer Tax Exempt v2, for Zen Cart v1.5.6+</h1>
-<h3>Version 2.0.0 by lat9. <span class="smaller">Copyright &copy; 2019, <a href="https://vinosdefrutastropicales.com" target="_blank">Vinos de Frutas Tropicales</a></span></h3>
+<h3>Version 2.0.1 by lat9/nikhilchaudhary70. <span class="smaller">Copyright &copy; 2019-2021, <a href="https://vinosdefrutastropicales.com" target="_blank">Vinos de Frutas Tropicales</a></span></h3>
 <p>Current Support Thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?225841-Customer-Tax-Exempt" target="_blank">https://www.zen-cart.com/showthread.php?225841-Customer-Tax-Exempt</a></p>
 
 <hr />
 <h2>What it does</h2>
-<p><em>Customer Tax Exempt v2</em> allows you to identify taxes from which your store's customers are exempt. Refer to the plugin's <a href="https://github.com/lat9/customer_tax_exempt_2/readme.md" target="_blank">on-line documentation</a> for additional information.</p>
+<p><em>Customer Tax Exempt v2</em> allows you to identify taxes from which your store's customers are exempt. Refer to the plugin's <a href="https://github.com/lat9/customer_tax_exempt_2/blob/master/readme.md" target="_blank">on-line documentation</a> for additional information.</p>
 
 <hr />
 <h2>Installing and Upgrading</h2>
@@ -70,6 +70,13 @@ td.none { font-weight: bold; text-align: center; padding-top: 10px; }
 <hr />
 <h2>Version History:</h2>
 <ul>
+  <li>v2.0.1, 2021-04-29:<ul>
+    <li>BUGFIX: Correct MySQL error when customer has multiple exemptions.</li>
+    <li>The following files were changed:<ol>
+        <li>/includes/classes/observers/TaxExemptCustomerObserver.php</li>
+        <li>/YOUR_ADMIN/includes/init_includes/init_customer_tax_exempt_admin.php</li>
+    </ol></li>
+  </ul></li>
   <li>v2.0.0, 2019-08-31:<ul>
     <li>Initial release.</li>
   </ul></li>

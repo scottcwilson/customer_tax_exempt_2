@@ -229,7 +229,7 @@ class TaxExemptCustomerObserver extends base
                 foreach ($customers_exemptions as $next_exemption) {
                     $exemptions[] = addslashes(trim($next_exemption));
                 }
-                $this->exemptions_list = "'" . implode(", '", $exemptions) . "'";
+                $this->exemptions_list = "'" . implode("', '", $exemptions) . "'";
             }
         }
         return $exemption_status;

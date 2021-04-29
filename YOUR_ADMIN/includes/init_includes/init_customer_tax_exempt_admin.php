@@ -1,13 +1,13 @@
 <?php
 // -----
 // Part of the Customer: Tax-Exempt v2 plugin by lat9
-// Copyright (C) 2019, Vinos de Frutas Tropicales
+// Copyright (C) 2019-2021, Vinos de Frutas Tropicales
 //
 if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
 }
 
-define('CUSTOMER_TAX_EXEMPT_CURRENT_VERSION', '2.0.0');
+define('CUSTOMER_TAX_EXEMPT_CURRENT_VERSION', '2.0.1');
 
 // -----
 // Wait until an admin is logged in before seeing if any initialization steps need to be performed.
