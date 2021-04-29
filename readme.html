@@ -72,6 +72,7 @@ td.none { font-weight: bold; text-align: center; padding-top: 10px; }
 <ul>
   <li>v2.0.1, 2021-04-29:<ul>
     <li>BUGFIX: Correct MySQL error when customer has multiple exemptions.</li>
+    <li>BUGFIX: Guest customers aren't tax-exempt.</li>
     <li>The following files were changed:<ol>
         <li>/includes/classes/observers/TaxExemptCustomerObserver.php</li>
         <li>/YOUR_ADMIN/includes/init_includes/init_customer_tax_exempt_admin.php</li>

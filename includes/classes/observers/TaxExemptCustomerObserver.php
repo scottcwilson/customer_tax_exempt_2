@@ -17,11 +17,11 @@ class TaxExemptCustomerObserver extends base
     public function __construct() 
     { 
         // -----
-        // If a customer is currently logged-in, gather any tax-exemptions that they
+        // If a non-guest customer is currently logged-in, gather any tax-exemptions that they
         // might have, providing tax-related overrides **only if** the customer has
         // some form of tax-exemption.
         //
-        if (isset($_SESSION['customer_id'])) {
+        if (zen_is_logged_in() && !zen_in_guest_checkout()) {
             if ($this->initializeTaxExemptions() !== false) {
                 $this->attach(
                     $this,
