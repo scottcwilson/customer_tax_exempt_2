@@ -5,19 +5,17 @@
 //
 // Last updated: v2.0.2
 //
-class TaxExemptCustomerObserver extends base 
+class TaxExemptCustomerObserver extends base
 {
-    protected $tax_class_id,
-              $country_id,
-              $zone_id,
-              $exemptions_list,
-              $exemptions_all;
-              
+    protected
+        $exemptions_list = '',
+        $exemptions_all = false;
+
     // -----
     // Class constructor.
     //
-    public function __construct() 
-    { 
+    public function __construct()
+    {
         // -----
         // If a non-guest customer is currently logged-in, gather any tax-exemptions that they
         // might have, providing tax-related overrides **only if** the customer has
@@ -27,24 +25,24 @@ class TaxExemptCustomerObserver extends base
             if ($this->initializeTaxExemptions() !== false) {
                 $this->attach(
                     $this,
-                    array(
+                    [
                         //- From /includes/functions/functions_taxes.php
                         'NOTIFY_ZEN_GET_TAX_RATE_OVERRIDE',
                         'NOTIFY_ZEN_GET_TAX_DESCRIPTION_OVERRIDE',
                         'NOTIFY_ZEN_GET_MULTIPLE_TAX_RATES_OVERRIDE',
-                    )
+                    ]
                 );
             }
         }
     }
-    
+
     // -----
     // This function is invoked when one of the attached notifiers "fires" and acts as a router to provide
     // the required functionality.
     //
     // Note: The notifications are attached **only if** the customer has one or more tax-exemptions!
     //
-    public function update(&$class, $eventID, $p1, &$p2, &$p3, &$p4, &$p5) 
+    public function update(&$class, $eventID, $p1, &$p2, &$p3, &$p4, &$p5)
     {
         switch ($eventID) {
             // -----
@@ -62,11 +60,11 @@ class TaxExemptCustomerObserver extends base
                 // If the customer is exempt from *all* taxes, set the tax-rate override to 0 and
                 // perform a quick-return.
                 //
-                if ($this->exemptions_all) {
+                if ($this->exemptions_all === true) {
                     $p2 = 0;
                     return;
                 }
-                
+
                 // -----
                 // Otherwise, the customer is exempt from *some* taxes.  See whether the current tax-class
                 // requested is one of them.  The value returned by getCustomersTaxRates is a database-object
@@ -76,20 +74,17 @@ class TaxExemptCustomerObserver extends base
                 $tax_rates = $this->getCustomersTaxRatesSummed($p1['class_id'], $p1['country_id'], $p1['zone_id']);
                 if ($tax_rates->EOF) {
                     $p2 = 0;
-                    unset($tax_rates);
                     return;
                 }
-                
+
                 // -----
                 // If we got here, the customer is *not* exempt from some taxes.  Sum up the associated rates and
                 // set the override.
                 //
                 $tax_multiplier = 1;
-                while (!$tax_rates->EOF) {
-                    $tax_multiplier *= 1 + $tax_rates->fields['tax_rate_summed'] / 100;
-                    $tax_rates->MoveNext();
+                foreach ($tax_rates as $rate) {
+                    $tax_multiplier *= 1 + $rate['tax_rate_summed'] / 100;
                 }
-                unset($tax_rates);
                 $p2 = ($tax_multiplier - 1) / 100;
                 break;
 
@@ -108,11 +103,11 @@ class TaxExemptCustomerObserver extends base
                 // If the customer is exempt from *all* taxes, set the tax-description override to the 'unknown'
                 // string perform a quick-return.
                 //
-                if ($this->exemptions_all) {
+                if ($this->exemptions_all === true) {
                     $p2 = TEXT_UNKNOWN_TAX_RATE;
                     return;
                 }
-                
+
                 // -----
                 // Otherwise, the customer is exempt from *some* taxes.  See whether the current tax-class
                 // requested is one of them.  The value returned by getCustomersTaxRates is a database-object
@@ -122,20 +117,17 @@ class TaxExemptCustomerObserver extends base
                 $tax_rates = $this->getCustomersTaxRates($p1['class_id'], $p1['country_id'], $p1['zone_id']);
                 if ($tax_rates->EOF) {
                     $p2 = TEXT_UNKNOWN_TAX_RATE;
-                    unset($tax_rates);
                     return;
                 }
-                
+
                 // -----
                 // If we got here, the customer is *not* exempt from some taxes.  Concatenate the
                 // tax-descriptions for which the customer is responsible.
                 //
-                $tax_descriptions = array();
-                while (!$tax_rates->EOF) {
-                    $tax_descriptions[] = $tax_rates->fields['tax_description'];
-                    $tax_rates->MoveNext();
+                $tax_descriptions = [];
+                foreach ($tax_rates as $rate) {
+                    $tax_descriptions[] = $rate['tax_description'];
                 }
-                unset($tax_rates);
                 $p2 = implode(' + ', $tax_descriptions);
                 break;
 
@@ -154,11 +146,11 @@ class TaxExemptCustomerObserver extends base
                 // If the customer is exempt from *all* taxes, set the tax-description override to the 'unknown'
                 // string perform a quick-return.
                 //
-                if ($this->exemptions_all) {
-                    $p2 = array(TEXT_UNKNOWN_TAX_RATE => 0);
+                if ($this->exemptions_all === true) {
+                    $p2 = [TEXT_UNKNOWN_TAX_RATE => 0];
                     return;
                 }
-                
+
                 // -----
                 // Otherwise, the customer is exempt from *some* taxes.  See whether the current tax-class
                 // requested is one of them.  The value returned by getCustomersTaxRates is a database-object
@@ -167,35 +159,32 @@ class TaxExemptCustomerObserver extends base
                 //
                 $tax_rates = $this->getCustomersTaxRates($p1['class_id'], $p1['country_id'], $p1['zone_id']);
                 if ($tax_rates->EOF) {
-                    $p2 = array(TEXT_UNKNOWN_TAX_RATE => 0);
-                    unset($tax_rates);
+                    $p2 = [TEXT_UNKNOWN_TAX_RATE => 0]
                     return;
                 }
-                
+
                 // -----
                 // If we got here, the customer is *not* exempt from some taxes.  Create (and return) an
                 // array that maps each 'active' tax-description to its associated rate.
                 //
-                $rates_array = array();
+                $rates_array = [];
                 $tax_aggregate_rate = 1;
                 $tax_rate_factor = 1;
                 $tax_prior_rate = 1;
                 $tax_priority = 0;
-                while (!$tax_rates->EOF) {
-                    $current_tax_rate = 1 + $tax_rates->fields['tax_rate'] / 100;
-                    if ($tax_rates->fields['tax_priority'] <= $tax_priority) {
+                foreach ($tax_rates as $rate) {
+                    $current_tax_rate = 1 + $rate['tax_rate'] / 100;
+                    if ($rate['tax_priority'] <= $tax_priority) {
                         $tax_rate_factor = $tax_prior_rate * $current_tax_rate;
                     } else {
-                        $tax_priority = $tax_rates->fields['tax_priority'];
+                        $tax_priority = $rate['tax_priority'];
                         $tax_prior_rate = $tax_aggregate_rate;
                         $tax_rate_factor = $current_tax_rate * $tax_aggregate_rate;
                         $tax_aggregate_rate = 1;
                     }
-                    $rates_array[$tax_rates->fields['tax_description']] = 100 * ($tax_rate_factor - $tax_prior_rate);
+                    $rates_array[$rate['tax_description']] = 100 * ($tax_rate_factor - $tax_prior_rate);
                     $tax_aggregate_rate += $tax_rate_factor - 1;
-                    $tax_rates->MoveNext();
                 }
-                unset($tax_rates);
                 $p2 = $rates_array;
                 break;
 
@@ -203,7 +192,7 @@ class TaxExemptCustomerObserver extends base
                 break;
         }
     }
-    
+
     // -----
     // Called on each page-load by the class constructor if a customer is currently logged in.
     //
@@ -213,21 +202,23 @@ class TaxExemptCustomerObserver extends base
     //
     protected function initializeTaxExemptions()
     {
+        global $db;
+
         $exemption_status = false;
-        $check = $GLOBALS['db']->Execute(
+        $check = $db->Execute(
             "SELECT customers_tax_exempt
                FROM " . TABLE_CUSTOMERS . "
               WHERE customers_id = " . (int)$_SESSION['customer_id'] . "
               LIMIT 1"
         );
         if (!$check->EOF && !empty($check->fields['customers_tax_exempt'])) {
-            if (strtoupper(trim($check->fields['customers_tax_exempt'])) == 'ALL') {
+            if (strtoupper(trim($check->fields['customers_tax_exempt'])) === 'ALL') {
                 $exemption_status = 'ALL';
                 $this->exemptions_all = true;
             } else {
-                 $exemption_status = true;
+                $exemption_status = true;
                 $customers_exemptions = explode(',', $check->fields['customers_tax_exempt']);
-                $exemptions = array();
+                $exemptions = [];
                 foreach ($customers_exemptions as $next_exemption) {
                     $exemptions[] = addslashes(trim($next_exemption));
                 }
@@ -236,21 +227,23 @@ class TaxExemptCustomerObserver extends base
         }
         return $exemption_status;
     }
-    
+
     protected function getCustomersTaxRatesSummed($tax_class_id, $country_id, $zone_id)
     {
+        global $db;
+
         $tax_class_id = (int)$tax_class_id;
-        if ($country_id == -1 && $zone_id == -1) {
-            $country_id = $_SESSION['customer_country_id'];
-            $zone_id = $_SESSION['customer_zone_id'];
-        }
         $country_id = (int)$country_id;
         $zone_id = (int)$zone_id;
+        if ($country_id === -1 && $zone_id === -1) {
+            $country_id = (int)$_SESSION['customer_country_id'];
+            $zone_id = (int)$_SESSION['customer_zone_id'];
+        }
 
-        $tax_info = $GLOBALS['db']->Execute(
+        $tax_info = $db->Execute(
             "SELECT SUM(tax_rate) AS tax_rate_summed, tax_priority
               FROM " . TABLE_TAX_RATES . " tr
-                    LEFT JOIN " . TABLE_ZONES_TO_GEO_ZONES . " za 
+                    LEFT JOIN " . TABLE_ZONES_TO_GEO_ZONES . " za
                         ON tr.tax_zone_id = za.geo_zone_id
                     LEFT JOIN " . TABLE_GEO_ZONES . " tz 
                         ON tz.geo_zone_id = tr.tax_zone_id
@@ -263,21 +256,23 @@ class TaxExemptCustomerObserver extends base
         );
         return $tax_info;
     }
-    
+
     protected function getCustomersTaxRates($tax_class_id, $country_id, $zone_id)
     {
+        global $db;
+
         $tax_class_id = (int)$tax_class_id;
-        if ($country_id == -1 && $zone_id == -1) {
-            $country_id = $_SESSION['customer_country_id'];
-            $zone_id = $_SESSION['customer_zone_id'];
-        }
         $country_id = (int)$country_id;
         $zone_id = (int)$zone_id;
+        if ($country_id === -1 && $zone_id === -1) {
+            $country_id = (int)$_SESSION['customer_country_id'];
+            $zone_id = (int)$_SESSION['customer_zone_id'];
+        }
 
-        $tax_info = $GLOBALS['db']->Execute(
+        $tax_info = $db->Execute(
             "SELECT tax_rate, tax_description, tax_priority
               FROM " . TABLE_TAX_RATES . " tr
-                    LEFT JOIN " . TABLE_ZONES_TO_GEO_ZONES . " za 
+                    LEFT JOIN " . TABLE_ZONES_TO_GEO_ZONES . " za
                         ON tr.tax_zone_id = za.geo_zone_id
                     LEFT JOIN " . TABLE_GEO_ZONES . " tz 
                         ON tz.geo_zone_id = tr.tax_zone_id
