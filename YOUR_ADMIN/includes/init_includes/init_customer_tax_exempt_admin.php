@@ -7,7 +7,7 @@ if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
 }
 
-define('CUSTOMER_TAX_EXEMPT_CURRENT_VERSION', '2.0.2-beta1');
+define('CUSTOMER_TAX_EXEMPT_CURRENT_VERSION', '2.0.2');
 
 // -----
 // Wait until an admin is logged in before seeing if any initialization steps need to be performed.

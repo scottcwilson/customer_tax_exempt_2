@@ -68,10 +68,13 @@ td.none { font-weight: bold; text-align: center; padding-top: 10px; }
 <hr>
 <h2>Version History:</h2>
 <ul>
-  <li>v2.0.2-beta1, 2024-04-25:<ul>
+  <li>v2.0.2, 2024-04-25:<ul>
     <li>BUGFIX: Correct MySQL 5.7+ error on storefront <code>GROUP BY</code> clause.</li>
+    <li>BUGFIX: Correct PHP Warning when customer's exemption status hasn't been supplied.</li>
+    <li>BUGFIX: Correct missing required value when editing a customer's record in the admin.</li>
     <li>The following files were changed:<ol>
         <li>/includes/classes/observers/TaxExemptCustomerObserver.php</li>
+        <li>/YOUR_ADMIN/includes/classes/observers/CustomerTaxExemptAdminObserver.php</li>
         <li>/YOUR_ADMIN/includes/init_includes/init_customer_tax_exempt_admin.php</li>
     </ol></li>
   </ul></li>
