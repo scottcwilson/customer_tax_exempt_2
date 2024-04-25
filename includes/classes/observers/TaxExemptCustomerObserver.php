@@ -3,6 +3,8 @@
 // A simple observer-class that monitors customer-login actions and sets a session
 // variable to indicate whether/not the customer qualifies for a tax-exemption.
 //
+// Last updated: v2.0.2
+//
 class TaxExemptCustomerObserver extends base 
 {
     protected $tax_class_id,
@@ -246,7 +248,7 @@ class TaxExemptCustomerObserver extends base
         $zone_id = (int)$zone_id;
 
         $tax_info = $GLOBALS['db']->Execute(
-            "SELECT SUM(tax_rate) AS tax_rate_summed, tax_description, tax_priority
+            "SELECT SUM(tax_rate) AS tax_rate_summed, tax_priority
               FROM " . TABLE_TAX_RATES . " tr
                     LEFT JOIN " . TABLE_ZONES_TO_GEO_ZONES . " za 
                         ON tr.tax_zone_id = za.geo_zone_id

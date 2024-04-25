@@ -7,12 +7,12 @@ if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
 }
 
-define('CUSTOMER_TAX_EXEMPT_CURRENT_VERSION', '2.0.1');
+define('CUSTOMER_TAX_EXEMPT_CURRENT_VERSION', '2.0.2-beta1');
 
 // -----
 // Wait until an admin is logged in before seeing if any initialization steps need to be performed.
 //
-if (isset($_SESSION['admin_id'])) {
+if (isset($_SESSION['admin_id']) && defined('CUSTOMER_TAX_EXEMPT_VERSION') && CUSTOMER_TAX_EXEMPT_CURRENT_VERSION !== CUSTOMER_TAX_EXEMPT_VERSION) {
     // ----
     // If the plugin's version hasn't been recorded, it's either an initial installation or an
     // upgrade from a previous (v1) version.
@@ -54,14 +54,12 @@ if (isset($_SESSION['admin_id'])) {
     }
 
     // -----
-    // Update the configuration table to reflect the current version, if it's not already set.
+    // Update the configuration table to reflect the current version.
     //
-    if (CUSTOMER_TAX_EXEMPT_CURRENT_VERSION != CUSTOMER_TAX_EXEMPT_VERSION) {
-        $db->Execute(
-            "UPDATE " . TABLE_CONFIGURATION . " 
-                SET configuration_value = '" . CUSTOMER_TAX_EXEMPT_CURRENT_VERSION . "' 
-              WHERE configuration_key = 'CUSTOMER_TAX_EXEMPT_VERSION'
-              LIMIT 1"
-        );
-    }
+    $db->Execute(
+        "UPDATE " . TABLE_CONFIGURATION . " 
+            SET configuration_value = '" . CUSTOMER_TAX_EXEMPT_CURRENT_VERSION . "' 
+          WHERE configuration_key = 'CUSTOMER_TAX_EXEMPT_VERSION'
+          LIMIT 1"
+    );
 }

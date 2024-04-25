@@ -2,11 +2,10 @@
 <html dir="ltr" lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Customer Tax Exempt v2 for Zen Cart v1.5.6+</title>
 
-<style type="text/css">
-<!--
+<style>
 a, a:active, a:visited { color: #006666; text-decoration: none; }
 a:hover { color: #00CC99; text-decoration: underline; }
 BODY, P, H1, H2, H3, H4, H5, H6, LI, TD, DD, DT, table {   font-family: Verdana, AvantGarde, Tahoma, Arial, sans-serif; font-size: 10pt; color: black; padding: 0px; margin: 20px; }
@@ -33,21 +32,20 @@ td.none { font-weight: bold; text-align: center; padding-top: 10px; }
 .odd { background-color: #ebebeb; }
 .osh { }
 .smaller { font-size: smaller; }
--->
 </style>
 </head>
 
 <body>
 <a name="top" id="top"></a>
 <h1>Customer Tax Exempt v2, for Zen Cart v1.5.6+</h1>
-<h3>Version 2.0.1 by lat9/nikhilchaudhary70. <span class="smaller">Copyright &copy; 2019-2021, <a href="https://vinosdefrutastropicales.com" target="_blank">Vinos de Frutas Tropicales</a></span></h3>
+<h3>Version 2.0.2 by lat9, nikhilchaudhary70 and scottcwilson. <span class="smaller">Copyright &copy; 2019-2024, <a href="https://vinosdefrutastropicales.com" target="_blank">Vinos de Frutas Tropicales</a></span></h3>
 <p>Current Support Thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?225841-Customer-Tax-Exempt" target="_blank">https://www.zen-cart.com/showthread.php?225841-Customer-Tax-Exempt</a></p>
 
-<hr />
+<hr>
 <h2>What it does</h2>
 <p><em>Customer Tax Exempt v2</em> allows you to identify taxes from which your store's customers are exempt. Refer to the plugin's <a href="https://github.com/lat9/customer_tax_exempt_2/blob/master/readme.md" target="_blank">on-line documentation</a> for additional information.</p>
 
-<hr />
+<hr>
 <h2>Installing and Upgrading</h2>
 <p>There are <b>no</b> <span class="corefile">core-file overwrites</span> in this plugin; however, you should <strong>always</strong> backup your store's database and files prior to making any changes.</p>
 <ol>
@@ -63,13 +61,20 @@ td.none { font-weight: bold; text-align: center; padding-top: 10px; }
   <li>Sign into your admin-console or, if you are already signed in, click the <em>Admin Home</em> link at the top of the page.</li>
 </ol>
 
-<hr />
+<hr>
 <h2>Un-install</h2>
 <p>Delete the plugin's added files (see above) copied during the installation. Finally, run the <strong>/uninstall_customer_tax_exempt.sql</strong> to remove the plugin's database changes.</p>
 
-<hr />
+<hr>
 <h2>Version History:</h2>
 <ul>
+  <li>v2.0.2-beta1, 2024-04-25:<ul>
+    <li>BUGFIX: Correct MySQL 5.7+ error on storefront <code>GROUP BY</code> clause.</li>
+    <li>The following files were changed:<ol>
+        <li>/includes/classes/observers/TaxExemptCustomerObserver.php</li>
+        <li>/YOUR_ADMIN/includes/init_includes/init_customer_tax_exempt_admin.php</li>
+    </ol></li>
+  </ul></li>
   <li>v2.0.1, 2021-04-29:<ul>
     <li>BUGFIX: Correct MySQL error when customer has multiple exemptions.</li>
     <li>BUGFIX: Guest customers aren't tax-exempt.</li>
