@@ -159,7 +159,7 @@ class TaxExemptCustomerObserver extends base
                 //
                 $tax_rates = $this->getCustomersTaxRates($p1['class_id'], $p1['country_id'], $p1['zone_id']);
                 if ($tax_rates->EOF) {
-                    $p2 = [TEXT_UNKNOWN_TAX_RATE => 0]
+                    $p2 = [TEXT_UNKNOWN_TAX_RATE => 0];
                     return;
                 }
 
